@@ -18,6 +18,7 @@
 Dir['scoring_system/**/*.rb'].each do |file|
   require_relative "../#{file}"
 end
+require_relative '../spec/scoring_system//tennis/shared_examples'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

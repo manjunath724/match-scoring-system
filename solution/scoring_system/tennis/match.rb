@@ -21,9 +21,12 @@ module ScoringSystem
         @deuce = false
       end
 
-      # Each time a player wins a point, the point_won_by method is called to increment the points of the contestant.
+      # Increments the points scored by the contestant.
+      # Reset the previous flags and update the game and set/set flags based on the points scored by the players.
       def point_won_by(contestant)
+        reset_flags
         increment_point(contestant)
+        update_game_and_set
       end
 
       # Return the current set score followed by the current game score of the match.
@@ -41,6 +44,30 @@ module ScoringSystem
       def increment_point(contestant)
         is_player?(contestant) ? @player.point += 1 : @opponent.point += 1
       end
+
+      # Update the game and set based on the points scored by the players and conditions applicable.
+      def update_game_and_set
+        if leading?(player, opponent)
+          declare_winner(player)
+          reset_points
+        elsif leading?(opponent, player)
+          declare_winner(opponent)
+          reset_points
+        elsif eligible_for_winning?
+          determine_deuce_vs_advantage
+        end
+        players.each do |contestant|
+          update_set(contestant) if can_finalize_winner?(contestant)
+        end
+      end
+
+      # In case we plan to restrict the match to 1 set, then invoking this method will reset the sets and games of the players.
+      # This method should be invoked in update_game_and_set.
+      # def reset_sets_and_games
+      #   if (player.set == 1 || opponent.set == 1) && (!player.point.zero? || !opponent.point.zero?)
+      #     players.each { |contestant| contestant.set = 0; contestant.game = 0 }
+      #   end
+      # end
 
       # Snake-case is the preferred naming convention for methods.
       # This alias method is defined to maintain the consistency of the method names.

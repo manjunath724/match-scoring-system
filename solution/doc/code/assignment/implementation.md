@@ -19,13 +19,15 @@ gem 'rspec'
 ### Implementation Overview
 - `ScoringSystem::Tennis::Match` class is implemented to score a Tennis match, where points are scored in a game and games are scored in a set.
 - The class has the following methods:
-    - `initialize` method to initialize the player names and their scores
-    - `point_won_by` method to score a point for a player
-    - `score` method to return the current set score followed by the current game score
+  - `initialize` method to initialize the player names and their scores
+  - `point_won_by` method to score a point for a player
+  - `score` method to return the current set score followed by the current game score
 - Helper modules to refactor the code and keep it DRY.
-- `Match` class is tested using Rspec. Tests are written to cover all possible scenarios:
-  - `pointWonBy` an alias method name can be used to invoke the `point_won_by` method 
+- `Match` class is tested using Rspec. Tests are written to cover all possible scenarios and edge cases:
+  - `pointWonBy` an alias method name can be used to invoke the `point_won_by` method
+- Shared examples are used to test the same behavior across different contexts.
 - `spec_helper.rb` file is used to configure Rspec and load the required files.
+- Lambda functions are used to validate the points scored and games won by the contestants.
 
 ### Steps to setup and run the specs
 - Clone the forked repository
@@ -52,3 +54,14 @@ or
 ```
   bundle exec rspec spec/scoring_system/tennis/match_spec.rb
 ```
+
+### Assumptions
+- Assumed that all the files should be placed under `solution` directory. Hence I have moved Gemfile and other configuration files to the `solution` directory.
+  - Otherwise, those will be placed next to README.md file.
+- The [Tennis Scoring System](https://en.wikipedia.org/wiki/Tennis_scoring_system) wiki doc says that `When both sides have won the same number of points within a given game the score is described as "15–all" and "30–all", respectively.`
+  - As the requirement doc did not speak about it, I have not implemented it.
+- The `Match` is not restricted to 1 `set`. It can go upto `n` sets. But I have placed the commented logic to restrict its behaviour to 1 set.
+
+### Improvements
+- I would spend time gaining deeper knowledge of Rspec refactoring and optimization to rewrite the tests better.
+- I am open for feedback and improving the code further.
